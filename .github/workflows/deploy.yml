@@ -13,4 +13,4 @@ jobs:
         with:
           path: .
           node-version: 18
-          deploy-branch: gh-pages
+          publish_branch: gh-pages
