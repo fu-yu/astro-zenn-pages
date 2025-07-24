@@ -22,20 +22,60 @@ const structuredData = {
 };
 ---
 
-<html>
+<html lang="ja">
   <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zenn記事リンク</title>
     <script type="application/ld+json">
       {JSON.stringify(structuredData)}
     </script>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        line-height: 1.6;
+      }
+      h1 {
+        color: #333;
+        border-bottom: 2px solid #0070f3;
+        padding-bottom: 10px;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+      li {
+        margin-bottom: 15px;
+        padding: 15px;
+        border: 1px solid #e1e1e1;
+        border-radius: 5px;
+        background: #f9f9f9;
+      }
+      a {
+        color: #0070f3;
+        text-decoration: none;
+        font-weight: bold;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      .meta {
+        color: #666;
+        font-size: 0.9em;
+        margin-top: 5px;
+      }
+    </style>
   </head>
   <body>
     <h1>Zenn記事一覧</h1>
     <ul>
       {articles.map(article => (
         <li>
-          <a href={article.zennUrl} target="_blank">{article.title}</a><br />
-          {article.publishedAt?.slice(0, 10)} by {article.author}
+          <a href={article.zennUrl} target="_blank">{article.title}</a>
+          <div class="meta">by {article.author}</div>
         </li>
       ))}
     </ul>
