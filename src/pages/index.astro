@@ -1,0 +1,44 @@
+---
+const posts = [
+  {
+    title: "Google Sheetに書いた日付で祝日対応",
+    zennUrl: "https://zenn.dev/fuyu/articles/fa3a7e5fea4292",
+    description: "Google Apps Script（GAS）を使って、日本の祝日カレンダーから祝日をスプレッドシートに書き込む方法を紹介。",
+    author: "fu-yu",
+    publishedAt: "2020-12-02",
+    image: "https://images.microcms-assets.io/assets/1e64b00bd32246cc8c97c16..."
+  }
+];
+---
+
+<html>
+  <head>
+    <title>Zenn記事リンク</title>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "{posts[0].title}",
+        "description": "{posts[0].description}",
+        "author": { "@type": "Person", "name": "{posts[0].author}" },
+        "datePublished": "{posts[0].publishedAt}",
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "{posts[0].zennUrl}"
+        },
+        "image": "{posts[0].image}"
+      }
+    </script>
+  </head>
+  <body>
+    <h1>Zenn記事一覧</h1>
+    <ul>
+      {posts.map(post => (
+        <li>
+          <a href={post.zennUrl} target="_blank">{post.title}</a><br />
+          <small>{post.publishedAt} by {post.author}</small>
+        </li>
+      ))}
+    </ul>
+  </body>
+</html>
