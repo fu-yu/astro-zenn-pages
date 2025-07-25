@@ -6,8 +6,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "test:local": "echo '⚠️  ローカルテストを実行してください: http://localhost:4321/astro-zenn-pages/' && npm run dev",
-    "test:structured-data": "echo '📋 構造化データをテストしてください: https://search.google.com/test/rich-results'",
-    "pre-push": "echo '✅ pushする前のチェックリスト:' && echo '- ローカルテスト完了' && echo '- 構造化データ検証完了' && echo '- コンソールエラーなし' && echo '- リンク動作確認完了'"
+    "test:structured-data": "echo '📋 構造化データテスト:' && echo '1. GitHub Actionsで自動テスト実行済み（デプロイ後）' && echo '2. 手動確認: https://search.google.com/test/rich-results?url=https://fu-yu.github.io/astro-zenn-pages/' && echo '3. GitHub Actionsのサマリーで結果確認'",
+    "pre-push": "echo '✅ pushする前のチェックリスト:' && echo '- ローカルテスト完了 (構造化データ出力確認)' && echo '- コンソールエラーなし' && echo '- リンク動作確認完了' && echo '- デプロイ後にGitHub Actionsで自動テスト実行'"
   },
   "dependencies": {
     "astro": "^4.0.0"

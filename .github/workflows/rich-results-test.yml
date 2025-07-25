@@ -1,0 +1,101 @@
+name: Rich Results Test
+
+on:
+  workflow_run:
+    workflows: ["Deploy to GitHub Pages"]
+    types:
+      - completed
+
+jobs:
+  rich-results-test:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    
+    steps:
+      - name: Wait for deployment
+        run: sleep 30
+        
+      - name: Test Rich Results
+        run: |
+          echo "🔍 リッチリザルトテストを実行中..."
+          
+          # Google Rich Results Test API (非公式)
+          SITE_URL="https://fu-yu.github.io/astro-zenn-pages/"
+          
+          # サイトが利用可能かチェック
+          if curl -f -s "$SITE_URL" > /dev/null; then
+            echo "✅ サイトにアクセス可能: $SITE_URL"
+            
+            # 構造化データを抽出
+            echo "📋 構造化データを抽出中..."
+            STRUCTURED_DATA=$(curl -s "$SITE_URL" | grep -o '<script type="application/ld+json">[^<]*</script>' | sed 's/<script type="application\/ld+json">//g' | sed 's/<\/script>//g')
+            
+            if [ -n "$STRUCTURED_DATA" ]; then
+              echo "✅ 構造化データが見つかりました:"
+              echo "$STRUCTURED_DATA" | python3 -m json.tool
+              
+              # 必須フィールドのチェック
+              echo "🔍 必須フィールドをチェック中..."
+              
+              if echo "$STRUCTURED_DATA" | grep -q '"@context"'; then
+                echo "✅ @context フィールド: 存在"
+              else
+                echo "❌ @context フィールド: 不足"
+                exit 1
+              fi
+              
+              if echo "$STRUCTURED_DATA" | grep -q '"@type"'; then
+                echo "✅ @type フィールド: 存在"
+              else
+                echo "❌ @type フィールド: 不足"
+                exit 1
+              fi
+              
+              if echo "$STRUCTURED_DATA" | grep -q '"headline"'; then
+                echo "✅ headline フィールド: 存在"
+              else
+                echo "❌ headline フィールド: 不足"
+                exit 1
+              fi
+              
+              if echo "$STRUCTURED_DATA" | grep -q '"author"'; then
+                echo "✅ author フィールド: 存在"
+              else
+                echo "❌ author フィールド: 不足"
+                exit 1
+              fi
+              
+              if echo "$STRUCTURED_DATA" | grep -q '"image"'; then
+                echo "✅ image フィールド: 存在"
+              else
+                echo "❌ image フィールド: 不足"
+                exit 1
+              fi
+              
+              echo "🎉 すべての必須フィールドが存在します！"
+              echo "🔗 手動でのテストURL: https://search.google.com/test/rich-results?url=$SITE_URL"
+              
+            else
+              echo "❌ 構造化データが見つかりません"
+              exit 1
+            fi
+            
+          else
+            echo "❌ サイトにアクセスできません: $SITE_URL"
+            exit 1
+          fi
+
+      - name: Create test summary
+        run: |
+          echo "## 📋 リッチリザルトテスト結果" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ **テスト完了**: https://fu-yu.github.io/astro-zenn-pages/" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 手動テスト" >> $GITHUB_STEP_SUMMARY
+          echo "以下のURLで最終確認を行ってください:" >> $GITHUB_STEP_SUMMARY
+          echo "🔗 [Google Rich Results Test](https://search.google.com/test/rich-results?url=https://fu-yu.github.io/astro-zenn-pages/)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### チェック項目" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ 構造化データの存在確認" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ 必須フィールドの検証" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ JSON形式の妥当性確認" >> $GITHUB_STEP_SUMMARY

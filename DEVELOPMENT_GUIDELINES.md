@@ -13,9 +13,10 @@
 
 2. **pushする前の必須チェックリスト**
    - [ ] ローカルでの動作確認完了
-   - [ ] 構造化データの検証完了
+   - [ ] 構造化データがHTMLに正しく出力されているか確認
    - [ ] コンソールエラーなし
    - [ ] リンクの動作確認完了
+   - [ ] デプロイ後にGitHub Actionsで自動テスト実行
 
 3. **開発フロー**
    ```bash
@@ -25,26 +26,37 @@
    # 2. ブラウザで確認
    # http://localhost:4321/astro-zenn-pages/
    
-   # 3. 構造化データテスト
-   # https://search.google.com/test/rich-results
+   # 3. HTMLソースで構造化データ確認（JSON-LD形式）
    
    # 4. 問題なければcommit & push
    git add .
    git commit -m "description"
    git push
+   
+   # 5. GitHub Actionsで自動実行される項目:
+   #    - デプロイ (Deploy to GitHub Pages)
+   #    - リッチリザルトテスト (Rich Results Test)
+   #    - テスト結果はActionsページのサマリーで確認
    ```
 
 ## 構造化データ検証
 
-### チェックポイント
-- JSON-LD形式で正しく出力されているか
+### ローカルでのチェックポイント
+- JSON-LD形式で正しく出力されているか（HTMLソースで確認）
 - 必要なプロパティが全て含まれているか
 - 画像URLが正しく設定されているか
 - リンクが正しく動作するか
 
-### テストツール
+### デプロイ後の自動テスト
+- GitHub Actionsで自動実行される「Rich Results Test」ワークフロー
+- 構造化データの存在確認と必須フィールドの検証
+- テスト結果はGitHub ActionsのSummaryで確認可能
+
+### 手動での最終確認
 - [Google Rich Results Test](https://search.google.com/test/rich-results)
 - [Schema.org Validator](https://validator.schema.org/)
+
+**GitHub Actionsでの自動テストにより、デプロイ後すぐに構造化データの基本的な検証が行われます。**
 
 ## 環境変数管理
 

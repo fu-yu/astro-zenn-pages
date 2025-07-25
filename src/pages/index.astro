@@ -12,7 +12,11 @@ const structuredData = {
   "@type": "BlogPosting",
   "headline": articles[0]?.title || "Zenn記事一覧",
   "description": articles[0]?.description || "Zenn記事のリンク集",
-  "author": { "@type": "Person", "name": articles[0]?.author || "Unknown" },
+  "author": { 
+    "@type": "Person", 
+    "name": articles[0]?.author || "Unknown",
+    "url": "https://zenn.dev/fuyu"
+  },
   "datePublished": articles[0]?.publishedAt || new Date().toISOString(),
   "mainEntityOfPage": {
     "@type": "WebPage",
