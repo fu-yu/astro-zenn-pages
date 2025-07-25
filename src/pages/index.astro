@@ -18,7 +18,7 @@ const structuredData = {
     "@type": "WebPage",
     "@id": articles[0]?.zennUrl || "https://fu-yu.github.io/astro-zenn-pages/"
   },
-  "image": articles[0]?.image || ""
+  "image": articles[0]?.thumbnail?.url || ""
 };
 ---
 

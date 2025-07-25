@@ -4,9 +4,21 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "test:local": "echo '⚠️  ローカルテストを実行してください: http://localhost:4321/astro-zenn-pages/' && npm run dev",
+    "test:structured-data": "echo '📋 構造化データをテストしてください: https://search.google.com/test/rich-results'",
+    "pre-push": "echo '✅ pushする前のチェックリスト:' && echo '- ローカルテスト完了' && echo '- 構造化データ検証完了' && echo '- コンソールエラーなし' && echo '- リンク動作確認完了'"
   },
   "dependencies": {
     "astro": "^4.0.0"
+  },
+  "devGuidelines": {
+    "testFirst": true,
+    "requiredChecks": [
+      "local-testing",
+      "structured-data-validation", 
+      "console-error-check",
+      "link-verification"
+    ]
   }
 }
